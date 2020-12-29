@@ -6,6 +6,7 @@ source "https://rubygems.org"
 gemspec
 
 gem "rake", "~> 13.0"
+gem 'aws-sdk', '~> 3.0', '>= 3.0.1'
 
 group :development, :test do
   gem "rspec", "~> 3.0"
