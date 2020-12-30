@@ -21,6 +21,7 @@ module TranslateImg
     src_width, src_height = FastImage.size(src_file_path)
     filtered_blocks = detected.blocks.filter{ |block| block.text_type.nil? && !block.text.nil? }.map do |block|
       box = block.geometry.bounding_box
+      # https://docs.aws.amazon.com/translate/latest/dg/what-is.html
       translated = translate_client.translate_text(text: block.text, source_language_code: 'en', target_language_code: 'ja')
       OpenStruct.new(
         text: translated.translated_text,
