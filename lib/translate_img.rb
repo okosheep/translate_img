@@ -10,7 +10,9 @@ module TranslateImg
   # @params region [String] AWS region. Default is us-east-1.
   # @params src_file_path [String]
   # @params dest_file_path [String]
-  def self.translate(region: 'us-east-1', src_file_path:, dest_file_path:)
+  # @params source_language_code [String] Default is 'en'.
+  # @params target_language_code [String] Default is 'ja'.
+  def self.translate(region: 'us-east-1', src_file_path:, dest_file_path:, source_language_code: 'en', target_language_code: 'ja')
     fail 'Source file and destination file must not be same.' if src_file_path === dest_file_path
 
     textract_client = Aws::Textract::Client.new(region: region)
@@ -22,7 +24,7 @@ module TranslateImg
     filtered_blocks = detected.blocks.filter{ |block| block.text_type.nil? && !block.text.nil? }.map do |block|
       box = block.geometry.bounding_box
       # https://docs.aws.amazon.com/translate/latest/dg/what-is.html
-      translated = translate_client.translate_text(text: block.text, source_language_code: 'en', target_language_code: 'ja')
+      translated = translate_client.translate_text(text: block.text, source_language_code: source_language_code, target_language_code: target_language_code)
       OpenStruct.new(
         text: translated.translated_text,
         left: (box.left * src_width).ceil,
