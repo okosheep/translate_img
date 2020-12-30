@@ -6,6 +6,10 @@ TODO: Delete this and the text above, and describe your gem
 
 ## Installation
 
+You will need to install cairo first.
+
+On a Mac, you can use `brew install cairo` to install it.
+
 Add this line to your application's Gemfile:
 
 ```ruby
