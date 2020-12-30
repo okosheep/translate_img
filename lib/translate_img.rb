@@ -61,12 +61,7 @@ module TranslateImg
       FileUtils.cp src_file_path, dest_file_path
       surface = Cairo::ImageSurface.from_png(dest_file_path)
       context = Cairo::Context.new(surface)
-      context.set_source_rgba(
-        TranslateImg.configuration.font_color_rgba[:red],
-        TranslateImg.configuration.font_color_rgba[:green],
-        TranslateImg.configuration.font_color_rgba[:blue],
-        TranslateImg.configuration.font_color_rgba[:alpha]
-      )
+      context.set_source_rgba(*TranslateImg.configuration.font_color_rgba.slice(:red, :green, :blue, :alpha).values)
       context.set_font_size(TranslateImg.configuration.font_size)
       context.select_font_face(TranslateImg.configuration.font_face)
       filtered_blocks.each do |filtered_block|
