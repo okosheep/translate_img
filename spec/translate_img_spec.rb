@@ -5,6 +5,10 @@ RSpec.describe TranslateImg do
     expect(TranslateImg::VERSION).not_to be nil
   end
 
+  describe 'sandbox' do
+    it { described_class.new}
+  end
+
   it 'does something useful' do
     expect(false).to eq(true)
   end
