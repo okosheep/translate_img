@@ -35,20 +35,25 @@ module TranslateImg
         )
       end
 
-      FileUtils.cp src_file_path, dest_file_path
-      surface = Cairo::ImageSurface.from_png(dest_file_path)
-      context = Cairo::Context.new(surface)
-      context.set_source_rgba(*TranslateImg.configuration.font_color_rgba.slice(:red, :green, :blue, :alpha).values)
-      context.set_font_size(TranslateImg.configuration.font_size)
-      context.select_font_face(TranslateImg.configuration.font_face)
-      filtered_blocks.each do |filtered_block|
-        context.rectangle(filtered_block.left, filtered_block.top, filtered_block.width, filtered_block.height)
-        context.stroke
-        context.move_to(filtered_block.left, filtered_block.top)
-        context.show_text(filtered_block.text)
-      end
+      begin
+        FileUtils.cp src_file_path, dest_file_path
+        surface = Cairo::ImageSurface.from_png(dest_file_path)
+        context = Cairo::Context.new(surface)
+        context.set_source_rgba(*TranslateImg.configuration.font_color_rgba.slice(:red, :green, :blue, :alpha).values)
+        context.set_font_size(TranslateImg.configuration.font_size)
+        context.select_font_face(TranslateImg.configuration.font_face)
+        filtered_blocks.each do |filtered_block|
+          context.rectangle(filtered_block.left, filtered_block.top, filtered_block.width, filtered_block.height)
+          context.stroke
+          context.move_to(filtered_block.left, filtered_block.top)
+          context.show_text(filtered_block.text)
+        end
 
-      surface.write_to_png(dest_file_path)
+        surface.write_to_png(dest_file_path)
+      rescue
+        FileUtils.rm dest_file_path if File.exist?(dest_file_path)
+        raise $!
+      end
     end
   end
 end
