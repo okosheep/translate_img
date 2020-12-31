@@ -11,7 +11,7 @@ RSpec.describe TranslateImg do
         src_file_path: src_file_path,
         dest_file_path: dest_file_path,
         source_language_code: source_language_code,
-        target_language_code: target_language_code
+        target_language_code: target_language_code,
       )
     end
 
@@ -33,21 +33,21 @@ RSpec.describe TranslateImg do
               text_type: nil,
               text: 'hello',
               geometry: OpenStruct.new(
-                bounding_box: OpenStruct.new(left: 0, top: 0, width: 0, height: 0)
-              )
-            )]
-          )
+                bounding_box: OpenStruct.new(left: 0, top: 0, width: 0, height: 0),
+              ),
+            )],
+          ),
         )
         allow(Aws::Textract::Client).to receive(:new).and_return(textract_mock)
 
         translate_mock = Object.new
         allow(translate_mock).to receive(:translate_text).and_return(
-          OpenStruct.new(translated_text: 'こんにちは')
+          OpenStruct.new(translated_text: 'こんにちは'),
         )
         allow(Aws::Translate::Client).to receive(:new).and_return(translate_mock)
       end
 
-      it { is_expected.to be_truthy }
+      it { is_expected.to be_nil }
     end
 
     xdescribe 'when a region that does not provide the service is specified' do
@@ -58,7 +58,7 @@ RSpec.describe TranslateImg do
       end
 
       it 'will generate a no such endpoint error' do
-        expect{ subject }.to raise_error Aws::Errors::NoSuchEndpointError
+        expect { subject }.to raise_error Aws::Errors::NoSuchEndpointError
       end
     end
   end

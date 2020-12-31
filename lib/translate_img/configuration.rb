@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Definitions for TranslateImg settings.
 module TranslateImg
   class << self
     # @example
@@ -19,6 +20,7 @@ module TranslateImg
       @configuration ||= Configuration.new
     end
 
+    # Configurations for TranslateImg.
     class Configuration
       # Set region for Amazon Textract. Default is 'us-east-1'
       attr_accessor :aws_textract_region
