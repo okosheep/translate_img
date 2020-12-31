@@ -50,6 +50,7 @@ module TranslateImg
         end
 
         surface.write_to_png(dest_file_path)
+        true
       rescue
         FileUtils.rm dest_file_path if File.exist?(dest_file_path)
         raise $!
