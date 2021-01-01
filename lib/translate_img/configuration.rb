@@ -4,7 +4,7 @@
 module TranslateImg
   class << self
     # @example
-    #   # config/initializers/translate_img.rb
+    #   # config/initializers/translate_img_cli.rb
     #   TranslateImg.configure do |config|
     #     config.aws_textract_region = 'us-east-1'
     #     config.aws_translate_region = 'ap-northeast-1'

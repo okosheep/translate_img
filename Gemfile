@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in translate_img.gemspec
+# Specify your gem's dependencies in translate_img_cli.gemspec
 gemspec
 
 gem 'rake', '~> 13.0'
@@ -10,6 +10,7 @@ gem 'rake', '~> 13.0'
 gem 'aws-sdk', '~> 3.0', '>= 3.0.1'
 gem 'cairo', '~> 1.16', '>= 1.16.6'
 gem 'fastimage', '~> 2.2', '>= 2.2.1'
+gem 'thor', '~> 1.0', '>= 1.0.1'
 
 group :development, :test do
   gem 'rspec', '~> 3.0'

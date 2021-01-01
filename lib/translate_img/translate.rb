@@ -20,12 +20,10 @@ module TranslateImg
     def translate(src_file_path:, dest_file_path:, source_language_code: 'en', target_language_code: 'ja')
       raise 'Source file and destination file must not be same.' if src_file_path == dest_file_path
 
-      detected = create_amazon_textract_client.detect_document_text(
-        { document: { bytes: URI.open(src_file_path).read } },
-      )
+      detected = amazon_textract_client.detect_document_text(document: { bytes: URI.open(src_file_path).read })
       filtered_blocks = filter_detected_blocks(detected: detected).map do |block|
         box = block.geometry.bounding_box
-        translated = create_amazon_translate_client.translate_text(
+        translated = amazon_translate_client.translate_text(
           text: block.text,
           source_language_code: source_language_code,
           target_language_code: target_language_code,
@@ -39,11 +37,12 @@ module TranslateImg
     private
 
     # @return [Aws::Textract::Client]
-    def create_amazon_textract_client
+    def amazon_textract_client
       Aws::Textract::Client.new(region: TranslateImg.configuration.aws_textract_region)
     end
 
-    def create_amazon_translate_client
+    # @return [Aws::Translate::Client]
+    def amazon_translate_client
       Aws::Translate::Client.new(region: TranslateImg.configuration.aws_translate_region)
     end
 

@@ -1,0 +1,37 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+lib = File.expand_path('../lib', __dir__)
+$LOAD_PATH.unshift lib unless $LOAD_PATH.include?(lib) # enable local development
+
+require 'thor'
+require 'translate_img'
+
+# This is the CLI for translate_img.
+class TranslateImgCli < Thor
+  default_command :do_translate
+  desc '',
+       'Translate the text in the file specified by SRC_FILE_PATH and write it to the file specified by DEST_FILE_PATH.'
+
+  method_option :src_file_path, aliases: '-i', desc: 'Specify a input file path.', required: true
+  method_option :dest_file_path, aliases: '-o', desc: 'Specify a output file path.', required: true
+  method_option :source_language_code, aliases: '-l', desc: 'Specify a source language code.', default: 'en'
+  method_option :target_language_code, aliases: '-t', desc: 'Specify a target language code.', default: 'ja'
+
+  def do_translate
+    TranslateImg.translate(
+      src_file_path: options[:src_file_path],
+      dest_file_path: options[:dest_file_path],
+      source_language_code: options[:source_language_code],
+      target_language_code: options[:target_language_code],
+    )
+  end
+
+  class << self
+    def exit_on_failure?
+      true
+    end
+  end
+end
+
+TranslateImgCli.start(ARGV)
